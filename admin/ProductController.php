@@ -8,6 +8,8 @@ class ProductController{
 
 	public function create(){
 
+		sleep(1);
+
 		$product = new Product(Connection::getConn());
 
 		$objProduct = json_decode(file_get_contents("php://input")); 
@@ -34,6 +36,8 @@ class ProductController{
 
 	public function read(){
 
+		sleep(1);
+
 		$product = new Product(Connection::getConn());
 
 		if(isset($_REQUEST['id']))
@@ -48,6 +52,8 @@ class ProductController{
 	}
 
 	public function search(){
+
+		sleep(1);
 
 		$id = 0;
 		$name = '';
@@ -75,6 +81,8 @@ class ProductController{
 	}
 
 	public function update(){
+
+		sleep(1);
 
 		$product = new Product(Connection::getConn());
 
@@ -108,7 +116,24 @@ class ProductController{
 	}
 
 	public function delete(){
-		
+
+		sleep(1);
+
+		$product = new Product(Connection::getConn());
+
+		$id = 0;
+		if(isset($_REQUEST['id']))
+			$id = (int)$_REQUEST['id'];
+
+		$product->id = $id;
+
+		if($product->delete()){
+			echo json_encode($product);
+		} else {
+			echo '{"error":' . json_encode($product->getError()) . '}';
+		}
+
+			
 	}
 
 }

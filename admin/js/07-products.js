@@ -15,18 +15,21 @@
 	  		});
 		}
 	])
-	.controller('productsCtrl', ['$scope', 'productSearchService', function($scope, productSearchService){
+	.controller('productsCtrl', ['$scope', 'productsService', function($scope, productsService){
 		changeMenuActive('products');
 
 		$scope.productsFound = [];
 		$scope.currentPage = 1;
 		$scope.totalItems = 0;
 
+		var lastData;
+
 		$scope.searchProducts = function(data){
 			data = filterFormData(data);
+			lastData = data;
 			$scope.$parent.loading = true;
 			var page = $scope.currentPage;
-			productSearchService.search(data, page).then(function(response){
+			productsService.search(data, page).then(function(response){
 				$scope.totalItems = response.data.totalItems;
 				angular.copy(response.data.products, $scope.productsFound);
 				$(document.querySelector('#products-found')).show();
@@ -38,9 +41,24 @@
 		}
 
 
+		$scope.deleteProduct = function(id){
+			if(confirm('Você tem certeza que deseja remover este produto?')){
+				$scope.$parent.loading = true;
+				productsService.delete(id).then(function(){
+					$scope.searchProducts(lastData);
+					$scope.$parent.loading = false;
+					$scope.$parent.notification.show('success', 'Produto removido com sucesso.');
+				}, function(){
+					$scope.$parent.notification.show('danger', 'Ocorreu um erro ao remover o produto.');
+					$scope.$parent.loading = false;
+				});
+			}
+		}
+
+
 	}])
 
-	.service('productSearchService', ['$http', function($http){
+	.service('productsService', ['$http', function($http){
 
 		return {
 			search: function(objSearch, page){
@@ -49,6 +67,9 @@
 					strData += '&' + i + '=' + encodeURIComponent(objSearch[i])
 				}
 				return $http.get('GenericExecute.php?class=Product&action=Search&page=' + page + strData);
+			},
+			delete: function(id){
+				return $http.get('GenericExecute.php?class=Product&action=Delete&id=' + id);	
 			}
 		}
 

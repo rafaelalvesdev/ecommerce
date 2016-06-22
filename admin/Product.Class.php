@@ -18,6 +18,25 @@ class Product{
 		return $this->error;
 	}
 
+
+	public function delete(){
+
+		$query =	"DELETE FROM products WHERE id = :id;";
+
+		$stmt = $this->conn->prepare($query);
+	 
+		$stmt->bindParam(":id", $this->id);
+		 
+		if($stmt->execute()){
+			return true;
+		}else{
+			$this->error = $stmt->errorInfo();	 
+			return false;
+		}
+
+	}
+
+
 	public function create(){
 
 		$query =	"INSERT INTO products (name, price, stock, description) " .

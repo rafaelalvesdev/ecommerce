@@ -27,7 +27,8 @@
 				$scope.showProductData = true;
 				$scope.$parent.loading = false;
 			}, function(){
-				// error callback
+				$scope.$parent.loading = false;
+				$scope.$parent.notification.show('danger', 'Ocorreu um erro ao salvar o produto.');
 			});
 		} else {
 			$scope.showProductData = true;
@@ -41,7 +42,8 @@
 				$scope.$parent.loading = false;
 				$scope.$parent.notification.show('success', 'Produto ' + (product.id ? 'atualizado' : 'cadastrado') + ' com sucesso!');
 			}, function(){
-				
+				$scope.$parent.loading = false;
+				$scope.$parent.notification.show('danger', 'Ocorreu um erro ao salvar o produto.');				
 			});
 		}
 

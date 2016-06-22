@@ -15,7 +15,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<button type="submit" class="btn btn-primary pull-right" ng-click="searchProducts(searchForm)">Pesquisar</button>
+					<button type="submit" id="searchButton" class="btn btn-primary pull-right" ng-click="searchProducts(searchForm)">Pesquisar</button>
 				</div>
 			</fieldset>
 		</form>
@@ -44,7 +44,7 @@
 						<td width="1%">
 							<nobr>
 								<a href="#!/products/{{product.id}}">Alterar</a>
-								<a href="#!/products/{{product.id}}/remove">Remover</a>
+								<a ng-click="deleteProduct(product.id)" href="javascript:void(0)">Remover</a>
 							</nobr>
 						</td>
 					</tr>
@@ -55,7 +55,7 @@
 				<tfoot>
 					<tr>
 						<td colspan="5" align="right">
-							<uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="searchProducts(searchForm)" items-per-page="20" previous-text="Anterior" next-text="Próxima"></uib-pagination>
+							<uib-pagination total-items="totalItems" ng-show="totalItems > 20" ng-model="currentPage" ng-change="searchProducts(searchForm)" items-per-page="20" previous-text="Anterior" next-text="Próxima"></uib-pagination>
 						</td>
 					</tr>
 				</tfoot>
