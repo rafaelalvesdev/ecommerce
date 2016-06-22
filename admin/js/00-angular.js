@@ -31021,3 +31021,13 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
+
+(function(orig) {
+    angular.modules = [];
+    angular.module = function() {
+        if (arguments.length > 1) {
+            angular.modules.push(arguments[0]);
+        }
+        return orig.apply(null, arguments);
+    }
+})(angular.module);

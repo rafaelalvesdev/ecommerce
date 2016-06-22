@@ -4,7 +4,8 @@
 	'use strict';
 
 	angular.module('admin.products', [
-		'ngRoute'
+		'ngRoute',
+		'ui.bootstrap'
 	])
 	.config(['$routeProvider', function($routeProvider){
 		$routeProvider
@@ -14,34 +15,40 @@
 	  		});
 		}
 	])
-	.controller('productsCtrl', ['$scope', 'productServices', function($scope, productServices){
-		
-		$scope.title = 'Produtos';
-		$scope.smallTitle = 'Gerenciar';
+	.controller('productsCtrl', ['$scope', 'productSearchService', function($scope, productSearchService){
 		changeMenuActive('products');
 
+		$scope.productsFound = [];
+		$scope.currentPage = 1;
+		$scope.totalItems = 0;
 
 		$scope.searchProducts = function(data){
-			var objData = {};
-			for (var i in data){
-				if(i.substr(0, 1) != '$'){
-					objData[i] = data[i];
-				}
-			}
-
-			productServices.search(objData).then(function(response){
-				$scope.productsFound = response.data;
+			data = filterFormData(data);
+			$scope.$parent.loading = true;
+			var page = $scope.currentPage;
+			productSearchService.search(data, page).then(function(response){
+				$scope.totalItems = response.data.totalItems;
+				angular.copy(response.data.products, $scope.productsFound);
+				$(document.querySelector('#products-found')).show();
+				$scope.$parent.loading = false;
+			}, function(){
+				$scope.$parent.notification.show('danger', 'Ocorreu um erro ao pesquisar os produtos.');
+				$scope.$parent.loading = false;
 			});
 		}
 
 
 	}])
 
-	.service('productServices', ['$http', function($http){
+	.service('productSearchService', ['$http', function($http){
 
 		return {
-			search: function(objSearch){
-				return $http.post('GenericExecute.php?class=Product&action=Search', objSearch);
+			search: function(objSearch, page){
+				var strData = '';
+				for(var i in objSearch){
+					strData += '&' + i + '=' + encodeURIComponent(objSearch[i])
+				}
+				return $http.get('GenericExecute.php?class=Product&action=Search&page=' + page + strData);
 			}
 		}
 

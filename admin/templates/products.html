@@ -1,45 +1,66 @@
 <div class="container">
 	<h2>Produtos <small>Gerenciar</small></h2>
 	<div class="jumbotron">
-		<form class="form-inline" name="searchForm">
+		<form name="searchForm">
 			<fieldset>
 				<legend>Pesquisar</legend>
-				<div class="form-group">
-					<label>Código:</label>
-					<input type="number" class="form-control" ng-model="searchForm.code" id="code" style="width:100px">
+				<div class="form-group row">
+					<div class="col-sm-2">
+						<label>Código:</label>
+						<input type="text" class="form-control" ng-model="searchForm.code" id="code">
+					</div>
+					<div class="col-sm-10">
+						<label>Nome do Produto:</label>
+						<input type="text" class="form-control" ng-model="searchForm.name" id="name">
+					</div>
 				</div>
 				<div class="form-group">
-					<label>Nome do Produto:</label>
-					<input type="text" class="form-control" ng-model="searchForm.name" id="name" style="width:600px">
-				</div>
-				<div class="form-group">
-					<button type="submit" class="btn btn-default" ng-click="searchProducts(searchForm)">Pesquisar</button>
+					<button type="submit" class="btn btn-primary pull-right" ng-click="searchProducts(searchForm)">Pesquisar</button>
 				</div>
 			</fieldset>
 		</form>
 
 
-		<form ngHide="true" ngShow="!!productsFound">
+		<div id="products-found" style="display:none">
 			<fieldset>
 				<legend>Produtos Encontrados</legend>
 			</fieldset>
 			<table class="table table-striped" ngShow="productsFound.length > 0" ngHide="productsFound">
 				<thead>
-					<tr>
-						<td>Código</td>
+					<tr ng-hide="!productsFound.length">
+						<td align="center">Código</td>
 						<td>Nome do Produto</td>
+						<td>Estoque</td>
+						<td>Preço</td>
 						<td>Ações</td>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="product in productsFound">
-						<td>{{product.code}}</td>
+						<td align="center" width="1%">{{product.code}}</td>
 						<td>{{product.name}}</td>
-						<td>&nbsp;</td>					
+						<td>{{product.stock}}</td>
+						<td>{{product.price}}</td>
+						<td width="1%">
+							<nobr>
+								<a href="#!/products/{{product.code}}">Alterar</a>
+								<a href="#!/products/{{product.code}}/remove">Remover</a>
+							</nobr>
+						</td>
+					</tr>
+					<tr ng-show="!productsFound.length">
+						<td colspan="5" align="center">Nenhum produto encontrado.</td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="5" align="right">
+							<uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="searchProducts(searchForm)" items-per-page="20" previous-text="Anterior" next-text="Próxima"></uib-pagination>
+						</td>
+					</tr>
+				</tfoot>
 			</table>
 			<pagination></pagination>
-		</form>
+		</div>
 	</div>
 </div>

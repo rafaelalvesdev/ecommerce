@@ -1,0 +1,35 @@
+<div class="container">
+	<h2>Produtos <small>{{code == 'create' ? 'Cadastrar' : 'Editar / #' + code}}</small> </h2>
+	<div class="jumbotron" ng-show="showProductData">
+		<form name="setProduct">
+			<fieldset>
+				<div class="form-group" ng-hide="code == 'create'">
+					<label>Código:</label> <strong>{{product.code}}</strong>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-8">
+						<label>Nome do Produto:</label>
+						<input type="text" class="form-control" ng-model="product.name">
+					</div>
+					<div class="col-sm-2">
+						<label>Preço:</label>
+						<input type="text" class="form-control" ng-model="product.price">
+					</div>
+					<div class="col-sm-2">
+						<label>Estoque:</label>
+						<input type="text" class="form-control" ng-model="product.stock">
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-12">
+						<label>Descrição:</label>
+						<textarea class="form-control" ng-model="product.description" style="resize:none;height:150px"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary pull-right" ng-click="saveProduct(product)">{{code == 'create' ? 'Cadastrar' : 'Salvar'}}</button>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>

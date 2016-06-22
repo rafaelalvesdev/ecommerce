@@ -12,6 +12,61 @@ padding-top: 70px;
 }
 
 
-form + form {
+#products-found {
 	margin-top: 40px;
+}
+
+#products-found table tr td{
+	white-space: nowrap;
+}
+
+
+div.loading{
+	position: fixed;
+	width: 100%;
+	left: 0;
+	right: 0;
+	top: 50px;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 99999;
+}
+
+div.loading div{
+	position: absolute;
+	top:40%;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	width: 80px;
+	height: 80px;
+	background-color: rgba(225, 225, 225, 1);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5)
+}
+
+div.loading div img{
+	margin: 0 auto;
+	display: block;
+	top: 28px;
+	position: relative;
+}
+
+
+/*
+ALERT MESSAGE
+*/
+
+div.alert{
+	transition: all ease .8s;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+div.alert-show{
+	opacity: 1;
+}
+
+div.alert-hide{
+	opacity: 0;
 }

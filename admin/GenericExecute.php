@@ -15,7 +15,7 @@ require_once $classe . '.php';
  
 $obj = new $classe();
 if (!method_exists($obj, $metodo)){
-	//http_response_code(501);
+	http_response_code(501);
 	exit('invalid method');
 }
 
