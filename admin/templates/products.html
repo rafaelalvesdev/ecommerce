@@ -30,21 +30,21 @@
 					<tr ng-hide="!productsFound.length">
 						<td align="center">Código</td>
 						<td>Nome do Produto</td>
-						<td>Estoque</td>
-						<td>Preço</td>
-						<td>Ações</td>
+						<td align="center">Estoque</td>
+						<td align="center">Preço</td>
+						<td align="center">Ações</td>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="product in productsFound">
-						<td align="center" width="1%">{{product.code}}</td>
+						<td align="center" width="1%">{{product.id}}</td>
 						<td>{{product.name}}</td>
-						<td>{{product.stock}}</td>
-						<td>{{product.price}}</td>
+						<td width="1%" align="center">{{product.stock}}</td>
+						<td width="1%" align="right" style="padding-right:10px;">{{product.price}}</td>
 						<td width="1%">
 							<nobr>
-								<a href="#!/products/{{product.code}}">Alterar</a>
-								<a href="#!/products/{{product.code}}/remove">Remover</a>
+								<a href="#!/products/{{product.id}}">Alterar</a>
+								<a href="#!/products/{{product.id}}/remove">Remover</a>
 							</nobr>
 						</td>
 					</tr>

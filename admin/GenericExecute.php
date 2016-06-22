@@ -18,5 +18,9 @@ if (!method_exists($obj, $metodo)){
 	http_response_code(501);
 	exit('invalid method');
 }
-
-$obj->$metodo();
+try {
+	echo $obj->$metodo(); // return JSON
+} catch(Exception $e){
+	http_response_code(500);
+	echo $e->message;
+}

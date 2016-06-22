@@ -1,20 +1,21 @@
 <?php 
+setlocale(LC_MONETARY, 'it_IT');
+
 class Connection{ 
  
-	private $host		= "localhost";
-	private $db_name	= "5phpangularcrudlevel1";
-	private $username	= "root";
-	private $password	= "";
-	public $conn;
+	private static $host		= "localhost";
+	private static $db_name	= "ecommerce";
+	private static $username	= "root";
+	private static $password	= "";
  
-	public function getConnection(){
+	public static function getConn(){
 
-		$this->conn = null;		 
+		$conn = null;	 
 		try{
-			$this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
+			$conn = new PDO("mysql:host=" . self::$host . ";dbname=" . self::$db_name, self::$username, self::$password);
 		}catch(PDOException $exception){
 			echo "Connection error: " . $exception->getMessage();
 		}		 
-		return $this->conn;
+		return $conn;
 	}
 }

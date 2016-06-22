@@ -7,7 +7,7 @@
 	])
 	.config(['$routeProvider', function($routeProvider){
 		$routeProvider
-			.when('/products/:code', {
+			.when('/products/:id', {
 			    templateUrl: 'templates/products-edit.html',
 	    		controller: 'productsEditCtrl'
 	  		});
@@ -16,13 +16,13 @@
 	.controller('productsEditCtrl', ['$scope', '$routeParams', 'productCrud', function($scope, $routeParams, productCrud){
 		changeMenuActive('products');
 
-		var code = $routeParams.code;
-		$scope.code = code;
+		var id = $routeParams.id;
+		$scope.id = id;
 
-		if(code != 'create'){
+		if(id != 'create'){
 			$scope.showProductData = false;
 			$scope.$parent.loading = true;
-			productCrud.get(code).then(function(response){
+			productCrud.get(id).then(function(response){
 				$scope.product = response.data;
 				$scope.showProductData = true;
 				$scope.$parent.loading = false;
@@ -37,9 +37,9 @@
 			product = product || {};
 			$scope.$parent.loading = true;
 			productCrud.save(product).then(function(response){
-				window.location.hash = '#!/products/' + response.data.code;
+				window.location.hash = '#!/products/' + response.data.id;
 				$scope.$parent.loading = false;
-				$scope.$parent.notification.show('success', 'Produto ' + (product.code ? 'atualizado' : 'cadastrado') + ' com sucesso!');
+				$scope.$parent.notification.show('success', 'Produto ' + (product.id ? 'atualizado' : 'cadastrado') + ' com sucesso!');
 			}, function(){
 				
 			});
@@ -51,12 +51,12 @@
 	.service('productCrud', ['$http', function($http){
 
 		return {
-			get: function(code){
-				return $http.get('GenericExecute.php?class=Product&action=Read&code=' + code);
+			get: function(id){
+				return $http.get('GenericExecute.php?class=Product&action=Read&id=' + id);
 			}, 
 			save: function(product){
 				var method = '';
-				if(!product['code']){
+				if(!product['id']){
 					method = 'create';
 				} else {
 					method = 'update';
